@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "iree/compiler/Dialect/VM/IR/VMOps.h"
+#include "mlir/Conversion/SCFToStandard/SCFToStandard.h"
 #include "mlir/Pass/PassManager.h"
 #include "mlir/Pass/PassRegistry.h"
 #include "mlir/Transforms/Passes.h"
@@ -28,12 +29,18 @@ namespace VM {
 
 void buildVMTransformPassPipeline(OpPassManager &passManager,
                                   TargetOptions targetOptions) {
+  passManager.addPass(createLowerToCFGPass());
   passManager.addPass(createCanonicalizerPass());
+
   passManager.addPass(createConversionPass(targetOptions));
+
   passManager.addNestedPass<VM::ModuleOp>(createHoistInlinedRodataPass());
   passManager.addNestedPass<VM::ModuleOp>(createGlobalInitializationPass());
+
   passManager.addPass(createInlinerPass());
+  passManager.addPass(createCanonicalizerPass());
   passManager.addPass(createCSEPass());
+
   passManager.addPass(createSymbolDCEPass());
   if (targetOptions.optimizeForStackSize) {
     passManager.addNestedPass<VM::ModuleOp>(createSinkDefiningOpsPass());

@@ -215,6 +215,8 @@ class ConstantOpConversion : public OpConversionPattern<ConstantOp> {
           return srcOp.emitRemark()
                  << "unsupported const floating-point bit width for dialect";
       }
+    } else {
+      return rewriter.notifyMatchFailure(srcOp, "unsupported type");
     }
     return success();
   }
