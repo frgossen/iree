@@ -69,7 +69,7 @@ iree_vm_context_state_resolver(const iree_vm_context_t* context);
 
 // Sets |out_module_state| to the context-specific state for the given |module|.
 // The state is owned by the context and will only be live for as long as the
-// context is.
+// context does.
 IREE_API_EXPORT iree_status_t iree_vm_context_resolve_module_state(
     const iree_vm_context_t* context, iree_vm_module_t* module,
     iree_vm_module_state_t** out_module_state);

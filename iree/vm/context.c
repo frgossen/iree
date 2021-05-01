@@ -208,7 +208,6 @@ IREE_API_EXPORT iree_status_t iree_vm_context_create_with_modules(
     iree_host_size_t module_count, iree_allocator_t allocator,
     iree_vm_context_t** out_context) {
   IREE_TRACE_ZONE_BEGIN(z0);
-  IREE_ASSERT_ARGUMENT(instance);
   IREE_ASSERT_ARGUMENT(out_context);
   *out_context = NULL;
 
